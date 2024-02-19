@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="'viewport" content="width=device-width, initial-scale=1" />
+    <title>Spots</title>
+  </head>
+  <body>
+    <h1>Welcome to the spots page!!</h1>
+    <div>my favorite is <% spot.location %></div>
+    <h2>Spots</h2>
+    <ul>
+      <% for (let spot of spots) {%>
+      <li><%= spot.location %></li>
+      <% } %>
+    </ul>
+  </body>
+</html>

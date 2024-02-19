@@ -22,6 +22,12 @@ app.get('/', (req, res) => {
   res.render('home');
 });
 
+app.get('/spots', async (req, res) => {
+  const spots = await Spot.find({});
+
+  res.render('spots/index', { spots });
+});
+
 app.get('/createSpot', async (req, res) => {
   const spot = new Spot({
     title: 'New York',
