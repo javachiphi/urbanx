@@ -10,6 +10,7 @@ const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const Joi = require('joi');
 const bodyParser = require('body-parser');
+const { spotSchema } = require('./schemas');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
 
@@ -27,6 +28,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+const validateSpot = (req, res, next) => {
+  const { error } = spotSchema.validate(req.body);
+
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(',');
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
 app.get('/', (req, res) => {
   res.render('home');
 });
@@ -43,22 +55,12 @@ app.get('/spots/new', async (req, res) => {
 
 app.post(
   '/spots',
+  validateSpot,
   catchAsync(async (req, res) => {
-    const spotSchema = Joi.object({
-      title: Joi.string().required(),
-      location: Joi.string().required(),
-    });
-    console.log(req.body);
-    const { error } = spotSchema.validate(req.body);
-
-    if (error) {
-      const msg = error.details.map((el) => el.message).join(',');
-      throw new ExpressError(msg, 400);
-    }
-
     const { title, location } = req.body;
     const spot = new Spot({ title, location });
     await spot.save();
+
     res.redirect(`/spots/${spot._id}`);
   })
 );
@@ -85,13 +87,14 @@ app.get(
 
 app.put(
   '/spots/:id',
+  validateSpot,
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const { title, location } = req.body;
+    const { title, location, image, description } = req.body;
 
     const spot = await Spot.findByIdAndUpdate(
       id,
-      { title, location },
+      { title, location, image, description },
       { runValidators: true, new: true }
     );
 
