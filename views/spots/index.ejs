@@ -8,10 +8,15 @@
   <body>
     <h1>Welcome to the spots page!!</h1>
     <h2>Spots</h2>
+    <div>Add new campground <a href="/spots/new">New Spot</a></div>
+
     <ul>
       <% for (let spot of spots) {%>
-      <li><%= spot.location %></li>
-      <a href="/spots/<%= spot.id %>"> <%= spot.title %> </a>
+      <li>
+        <%= spot.location %>
+        <a href="/spots/<%= spot.id %>"> <%= spot.title %> </a>
+      </li>
+
       <% } %>
     </ul>
   </body>
