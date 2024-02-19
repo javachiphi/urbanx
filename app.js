@@ -67,6 +67,12 @@ app.put('/spots/:id', async (req, res) => {
   res.redirect(`/spots/${spot._id}`);
 });
 
+app.delete('/spots/:id', async (req, res) => {
+  const { id } = req.params;
+  await Spot.findByIdAndDelete(id);
+  res.redirect('/spots');
+});
+
 app.get('/createSpot', async (req, res) => {
   const spot = new Spot({
     title: 'New York',

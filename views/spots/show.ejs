@@ -7,8 +7,10 @@
   <body>
     <h1>Hello!</h1>
     <h2><%= spot.title %></h2>
-    <div>edit</div>
     <a href="/spots/<%= spot.id %>/edit">edit</a>
+    <form action="/spots/<%= spot.id %>?_method=DELETE" method="post">
+      <button>delete</button>
+    </form>
     <div>my favorite spot <%= spot.location %></div>
     <footer>
       <a href="/spots">all spots</a>
