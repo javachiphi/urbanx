@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="'viewport" content="width=device-width, initial-scale=1" />
-    <title>Spots</title>
-  </head>
-  <body>
-    <h1>Welcome to the spots page!!</h1>
-    <h2>Spots</h2>
-    <div>Add new campground <a href="/spots/new">New Spot</a></div>
+<% layout('layouts/Boilerplate') %>
+<h1>Welcome to the spots page!!</h1>
+<h2>Spots</h2>
+<div>Add new campground <a href="/spots/new">New Spot</a></div>
 
-    <ul>
-      <% for (let spot of spots) {%>
-      <li>
-        <%= spot.location %>
-        <a href="/spots/<%= spot.id %>"> <%= spot.title %> </a>
-      </li>
+<ul>
+  <% for (let spot of spots) {%>
+  <li>
+    <%= spot.location %>
+    <a href="/spots/<%= spot.id %>"> <%= spot.title %> </a>
+  </li>
 
-      <% } %>
-    </ul>
-  </body>
-</html>
+  <% } %>
+</ul>
