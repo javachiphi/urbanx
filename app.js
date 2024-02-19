@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
+const Joi = require('joi');
+const bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
 
@@ -21,9 +23,9 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-// app.use = use every single request
 
 app.get('/', (req, res) => {
   res.render('home');
@@ -42,8 +44,18 @@ app.get('/spots/new', async (req, res) => {
 app.post(
   '/spots',
   catchAsync(async (req, res) => {
-    if (!req.body.title || !req.body.location)
-      throw new ExpressError('Invalid Spot Data', 400);
+    const spotSchema = Joi.object({
+      title: Joi.string().required(),
+      location: Joi.string().required(),
+    });
+    console.log(req.body);
+    const { error } = spotSchema.validate(req.body);
+
+    if (error) {
+      const msg = error.details.map((el) => el.message).join(',');
+      throw new ExpressError(msg, 400);
+    }
+
     const { title, location } = req.body;
     const spot = new Spot({ title, location });
     await spot.save();
