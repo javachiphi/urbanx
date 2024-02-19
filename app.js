@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const morgan = require('morgan');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
+const ExpressError = require('./utils/ExpressError');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
 
@@ -41,6 +42,8 @@ app.get('/spots/new', async (req, res) => {
 app.post(
   '/spots',
   catchAsync(async (req, res) => {
+    if (!req.body.title || !req.body.location)
+      throw new ExpressError('Invalid Spot Data', 400);
     const { title, location } = req.body;
     const spot = new Spot({ title, location });
     await spot.save();
@@ -93,19 +96,14 @@ app.delete(
   })
 );
 
-app.get('/createSpot', async (req, res) => {
-  const spot = new Spot({
-    title: 'New York',
-    description: 'City that never sleeps',
-    image: 'https://source.unsplash.com/weekly?newyork',
-    location: 'New York',
-  });
-  await spot.save();
-  res.send(spot);
+app.all('*', (req, res, next) => {
+  next(new ExpressError('Page Not Found', 404));
+  // res.send('404!!');
 });
 
 app.use((err, req, res, next) => {
-  res.send('ohboy something went wrong ');
+  const { statusCode = 500, message = 'Something went wrong' } = err;
+  res.status(statusCode).send(message);
 });
 
 app.listen(3000, () => {
