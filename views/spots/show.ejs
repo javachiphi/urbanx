@@ -1,5 +1,4 @@
 <% layout('layouts/Boilerplate') %>
-<h1>Hello!</h1>
 <div class="row">
   <div class="col-6 offset-3">
     <div class="card mb-3">
@@ -7,6 +6,7 @@
       <div class="card-body">
         <h5 class="card-title"><%= spot.title %></h5>
         <p class="card-text"><%= spot.description %></p>
+        <p class="card-text"><%= spot.location %></p>
         <img class="img-fluid" src="<%= spot.image %>" alt="" />
       </div>
       <div class="card-body">
