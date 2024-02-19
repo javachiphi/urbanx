@@ -6,6 +6,7 @@ const Spot = require('./models/spot');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const ejsMate = require('ejs-mate');
+const catchAsync = require('./utils/catchAsync');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
 
@@ -37,45 +38,60 @@ app.get('/spots/new', async (req, res) => {
   res.render('spots/new');
 });
 
-app.post('/spots', async (req, res) => {
-  const { title, location } = req.body;
-  const spot = new Spot({ title, location });
-  await spot.save();
-  res.redirect(`/spots/${spot._id}`);
-});
+app.post(
+  '/spots',
+  catchAsync(async (req, res) => {
+    const { title, location } = req.body;
+    const spot = new Spot({ title, location });
+    await spot.save();
+    res.redirect(`/spots/${spot._id}`);
+  })
+);
 
-app.get('/spots/:id', async (req, res) => {
-  const { id } = req.params;
-  const spot = await Spot.findById(id);
+app.get(
+  '/spots/:id',
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const spot = await Spot.findById(id);
 
-  res.render('spots/show', { spot });
-});
+    res.render('spots/show', { spot });
+  })
+);
 
-app.get('/spots/:id/edit', async (req, res) => {
-  const { id } = req.params;
-  const spot = await Spot.findById(id);
+app.get(
+  '/spots/:id/edit',
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const spot = await Spot.findById(id);
 
-  res.render('spots/edit', { spot });
-});
+    res.render('spots/edit', { spot });
+  })
+);
 
-app.put('/spots/:id', async (req, res) => {
-  const { id } = req.params;
-  const { title, location } = req.body;
+app.put(
+  '/spots/:id',
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { title, location } = req.body;
 
-  const spot = await Spot.findByIdAndUpdate(
-    id,
-    { title, location },
-    { runValidators: true, new: true }
-  );
+    const spot = await Spot.findByIdAndUpdate(
+      id,
+      { title, location },
+      { runValidators: true, new: true }
+    );
 
-  res.redirect(`/spots/${spot._id}`);
-});
+    res.redirect(`/spots/${spot._id}`);
+  })
+);
 
-app.delete('/spots/:id', async (req, res) => {
-  const { id } = req.params;
-  await Spot.findByIdAndDelete(id);
-  res.redirect('/spots');
-});
+app.delete(
+  '/spots/:id',
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    await Spot.findByIdAndDelete(id);
+    res.redirect('/spots');
+  })
+);
 
 app.get('/createSpot', async (req, res) => {
   const spot = new Spot({
@@ -86,6 +102,10 @@ app.get('/createSpot', async (req, res) => {
   });
   await spot.save();
   res.send(spot);
+});
+
+app.use((err, req, res, next) => {
+  res.send('ohboy something went wrong ');
 });
 
 app.listen(3000, () => {
