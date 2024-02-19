@@ -2,25 +2,28 @@
 <h1>Hello!</h1>
 <div class="row">
   <div class="col-6 offset-3">
-    <div class="card">
+    <div class="card mb-3">
       <h5 class="card-header">Featured</h5>
       <div class="card-body">
         <h5 class="card-title"><%= spot.title %></h5>
         <p class="card-text"><%= spot.description %></p>
         <img class="img-fluid" src="<%= spot.image %>" alt="" />
       </div>
-      <div class="mb-3 ml-3">
-        <a class="card-link btn btn-info" href="/spots/<%= spot.id %>/edit"
-          >edit</a
-        >
-        <form
-          class="d-inline"
-          action="/spots/<%= spot.id %>?_method=DELETE"
-          method="post"
-        >
-          <button class="btn btn-danger">delete</button>
-        </form>
+      <div class="card-body">
+        <div class="mb-3 ml-3">
+          <a class="card-link btn btn-info" href="/spots/<%= spot.id %>/edit"
+            >edit</a
+          >
+          <form
+            class="d-inline"
+            action="/spots/<%= spot.id %>?_method=DELETE"
+            method="post"
+          >
+            <button class="btn btn-danger">delete</button>
+          </form>
+        </div>
       </div>
+      <div class="card-footer">2 days ago</div>
     </div>
   </div>
 </div>
