@@ -7,11 +7,11 @@
   </head>
   <body>
     <h1>Welcome to the spots page!!</h1>
-    <div>my favorite is <% spot.location %></div>
     <h2>Spots</h2>
     <ul>
       <% for (let spot of spots) {%>
       <li><%= spot.location %></li>
+      <a href="/spots/<%= spot.id %>"> <%= spot.title %> </a>
       <% } %>
     </ul>
   </body>

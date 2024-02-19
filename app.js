@@ -28,6 +28,13 @@ app.get('/spots', async (req, res) => {
   res.render('spots/index', { spots });
 });
 
+app.get('/spots/:id', async (req, res) => {
+  const { id } = req.params;
+  const spot = await Spot.findById(id);
+
+  res.render('spots/show', { spot });
+});
+
 app.get('/createSpot', async (req, res) => {
   const spot = new Spot({
     title: 'New York',
