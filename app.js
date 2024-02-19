@@ -22,6 +22,17 @@ app.get('/', (req, res) => {
   res.render('home');
 });
 
+app.get('/createSpot', async (req, res) => {
+  const spot = new Spot({
+    title: 'New York',
+    description: 'City that never sleeps',
+    image: 'https://source.unsplash.com/weekly?newyork',
+    location: 'New York',
+  });
+  await spot.save();
+  res.send(spot);
+});
+
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
 });
