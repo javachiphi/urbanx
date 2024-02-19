@@ -5,7 +5,9 @@
 <form action="/spots/<%= spot.id %>?_method=DELETE" method="post">
   <button>delete</button>
 </form>
-<div>my favorite spot <%= spot.location %></div>
+<div><%= spot.location %></div>
+<img src="<%= spot.image %>" alt="" />
+<div><%= spot.description %></div>
 <footer>
   <a href="/spots">all spots</a>
 </footer>
