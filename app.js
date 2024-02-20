@@ -11,6 +11,7 @@ const ExpressError = require('./utils/ExpressError');
 const Joi = require('joi');
 const bodyParser = require('body-parser');
 const { spotSchema } = require('./schemas');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
 
@@ -110,6 +111,20 @@ app.delete(
     res.redirect('/spots');
   })
 );
+
+app.post('/spots/:id/reviews', async (req, res) => {
+  const { id } = req.params;
+  const spot = await Spot.findById(id);
+
+  const { body, rating } = req.body;
+  const review = new Review({ body, rating });
+  await review.save();
+  spot.reviews.push(review);
+  await spot.save();
+
+  // res.status(200).send('Review added');
+  res.redirect(`/spots/${spot._id}`);
+});
 
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
