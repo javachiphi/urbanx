@@ -6,11 +6,17 @@ const Spot = require('./models/spot');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const bodyParser = require('body-parser');
-const spots = require('./routes/spots');
-const reviews = require('./routes/reviews');
+
+const spotRoutes = require('./routes/spots');
+const reviewRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/users');
+
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
 
@@ -40,18 +46,28 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser()); // store
+passport.deserializeUser(User.deserializeUser()); // unstore user in a session
+
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
 });
 
-app.use('/spots', spots);
-app.use('/spots/:id/reviews', reviews);
+app.use('/', userRoutes);
+app.use('/spots', spotRoutes);
+app.use('/spots/:id/reviews', reviewRoutes);
 
-app.get('/', (req, res) => {
-  res.render('home');
-});
+// app.get('/fakeUser', async (req, res) => {
+//   const user = new User({ email: 'hey@gmail.com', username: 'heyyy' });
+//   const newUser = await User.register(user, 'password');
+//   res.send(newUser);
+// });
 
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
