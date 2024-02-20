@@ -79,7 +79,7 @@ app.get(
   '/spots/:id',
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const spot = await Spot.findById(id);
+    const spot = await Spot.findById(id).populate('reviews');
 
     res.render('spots/show', { spot });
   })

@@ -1,6 +1,6 @@
 <% layout('layouts/Boilerplate') %>
 <div class="row">
-  <div class="col-6 offset-3">
+  <div class="col-6">
     <div class="card mb-3">
       <h5 class="card-header">Featured</h5>
       <div class="card-body">
@@ -25,6 +25,8 @@
       </div>
       <div class="card-footer">2 days ago</div>
     </div>
+  </div>
+  <div class="col-6">
     <form
       action="/spots/<%= spot.id %>/reviews"
       method="post"
@@ -59,5 +61,13 @@
       </div>
       <button class="btn btn-primary" type="submit">Submit</button>
     </form>
+    <% for (let review of spot.reviews) {%>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Rating: <%= review.rating %></h5>
+        <p class="card-text">Review: <%= review.body %></p>
+      </div>
+    </div>
+    <% } %>
   </div>
 </div>
