@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const spots = require('./routes/spots');
 const reviews = require('./routes/reviews');
 const ExpressError = require('./utils/ExpressError');
+const session = require('express-session');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
 
@@ -26,6 +27,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+const sessionConfig = {
+  secret: 'hey',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
+app.use(session(sessionConfig));
 
 app.use('/spots', spots);
 app.use('/spots/:id/reviews', reviews);
