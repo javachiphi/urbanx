@@ -64,12 +64,6 @@ app.use('/', userRoutes);
 app.use('/spots', spotRoutes);
 app.use('/spots/:id/reviews', reviewRoutes);
 
-// app.get('/fakeUser', async (req, res) => {
-//   const user = new User({ email: 'hey@gmail.com', username: 'heyyy' });
-//   const newUser = await User.register(user, 'password');
-//   res.send(newUser);
-// });
-
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
   // res.send('404!!');
