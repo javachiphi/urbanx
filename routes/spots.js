@@ -38,6 +38,7 @@ router.post(
   catchAsync(async (req, res) => {
     const { title, location } = req.body;
     const spot = new Spot({ title, location });
+    spot.author = req.user._id;
     await spot.save();
 
     req.flash('success', 'Spot created successfully!');
