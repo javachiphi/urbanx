@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const { spotSchema } = require('../schemas');
 const Spot = require('../models/spot');
+const { isLoggedIn } = require('../middleware');
 
 const validateSpot = (req, res, next) => {
   const { error } = spotSchema.validate(req.body);
@@ -26,12 +27,13 @@ router.get('/', async (req, res) => {
   res.render('spots/index', { spots });
 });
 
-router.get('/new', async (req, res) => {
+router.get('/new', isLoggedIn, async (req, res) => {
   res.render('spots/new');
 });
 
 router.post(
   '/',
+  isLoggedIn,
   validateSpot,
   catchAsync(async (req, res) => {
     const { title, location } = req.body;
@@ -59,6 +61,7 @@ router.get(
 
 router.get(
   '/:id/edit',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const spot = await Spot.findById(id);
@@ -74,6 +77,7 @@ router.get(
 
 router.put(
   '/:id',
+  isLoggedIn,
   validateSpot,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -92,6 +96,7 @@ router.put(
 
 router.delete(
   '/:id',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Spot.findByIdAndDelete(id);
