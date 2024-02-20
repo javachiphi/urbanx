@@ -28,15 +28,18 @@
         </li>
       </ul>
       <ul class="navbar-nav">
+        <% if (!currentUser) { %>
         <li class="nav-item">
           <a class="nav-link" href="/register">Register</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/login">Login</a>
         </li>
+        <% } else {%>
         <li class="nav-item">
           <a class="nav-link" href="/logout">logout</a>
         </li>
+        <% } %>
       </ul>
     </div>
   </div>
