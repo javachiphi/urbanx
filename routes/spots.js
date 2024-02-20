@@ -49,6 +49,10 @@ router.get(
     const { id } = req.params;
     const spot = await Spot.findById(id).populate('reviews');
 
+    if (!spot) {
+      req.flash('error', 'Cannot find that spot!');
+      return res.redirect('/spots');
+    }
     res.render('spots/show', { spot });
   })
 );
@@ -58,6 +62,11 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const spot = await Spot.findById(id);
+
+    if (!spot) {
+      req.flash('error', 'Cannot find that spot!');
+      return res.redirect('/spots');
+    }
 
     res.render('spots/edit', { spot });
   })
