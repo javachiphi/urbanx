@@ -3,19 +3,20 @@ const router = express.Router({ mergeParams: true });
 const Spot = require('../models/spot');
 const Review = require('../models/review');
 const catchAsync = require('../utils/catchAsync');
-const { validateReview } = require('../middleware');
+const { validateReview, isLoggedIn } = require('../middleware');
 
 router.post(
   '/',
+  isLoggedIn,
   validateReview,
   catchAsync(async (req, res) => {
     console.log('hey');
     const { id } = req.params;
     const spot = await Spot.findById(id);
-    console.log('spot', req.params);
 
     const { body, rating } = req.body;
     const review = new Review({ body, rating });
+    review.author = req.user._id;
     await review.save();
     spot.reviews.push(review);
     await spot.save();
