@@ -37,9 +37,16 @@ router.get(
   '/:id',
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const spot = await Spot.findById(id).populate('reviews').populate('author');
-    console.log('spot', spot);
+    const spot = await Spot.findById(id)
+      .populate({
+        path: 'reviews',
+        populate: {
+          path: 'author',
+        },
+      })
+      .populate('author');
 
+    console.log('spot', spot);
     if (!spot) {
       req.flash('error', 'Cannot find that spot!');
       return res.redirect('/spots');
