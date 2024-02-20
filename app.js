@@ -135,6 +135,15 @@ app.post('/spots/:id/reviews', validateReview, async (req, res) => {
   res.redirect(`/spots/${spot._id}`);
 });
 
+app.delete('/spots/:id/reviews/:reviewId', async (req, res) => {
+  const { id, reviewId } = req.params;
+  await Spot.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+  await Review.findByIdAndDelete(reviewId);
+
+  // res.send('delete me');
+  res.redirect(`/spots/${id}`);
+});
+
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
   // res.send('404!!');
