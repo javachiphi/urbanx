@@ -1,21 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-const ExpressError = require('../utils/ExpressError');
-const { spotSchema } = require('../schemas');
 const Spot = require('../models/spot');
-const { isLoggedIn } = require('../middleware');
-
-const validateSpot = (req, res, next) => {
-  const { error } = spotSchema.validate(req.body);
-
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(',');
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+const { isLoggedIn, isAuthor, validateSpot } = require('../middleware');
 
 router.use((req, res, next) => {
   next();
@@ -64,6 +51,7 @@ router.get(
 router.get(
   '/:id/edit',
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const spot = await Spot.findById(id);
@@ -80,11 +68,11 @@ router.get(
 router.put(
   '/:id/edit',
   isLoggedIn,
+  isAuthor,
   validateSpot,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const { title, location, image, description } = req.body;
-
     const spot = await Spot.findByIdAndUpdate(
       id,
       { title, location, image, description },
@@ -99,6 +87,7 @@ router.put(
 router.delete(
   '/:id',
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Spot.findByIdAndDelete(id);
