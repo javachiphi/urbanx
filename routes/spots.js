@@ -38,6 +38,7 @@ router.post(
     const spot = new Spot({ title, location });
     await spot.save();
 
+    req.flash('success', 'Spot created successfully!');
     res.redirect(`/spots/${spot._id}`);
   })
 );
@@ -74,6 +75,7 @@ router.put(
       { title, location, image, description },
       { runValidators: true, new: true }
     );
+    req.flash('success', 'Spot updated successfully!');
 
     res.redirect(`/spots/${spot._id}`);
   })
