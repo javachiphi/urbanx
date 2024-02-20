@@ -31,7 +31,7 @@ router.post(
     await review.save();
     spot.reviews.push(review);
     await spot.save();
-
+    req.flash('success', 'Review created successfully!');
     res.redirect(`/spots/${spot._id}`);
   })
 );
@@ -43,6 +43,7 @@ router.delete(
     await Spot.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
 
+    req.flash('success', 'Review deleted successfully!');
     res.redirect(`/spots/${id}`);
 
     // res.send('delete me');
