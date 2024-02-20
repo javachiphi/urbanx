@@ -4,13 +4,11 @@ const path = require('path');
 const mongoose = require('mongoose');
 const Spot = require('./models/spot');
 const methodOverride = require('method-override');
-const morgan = require('morgan');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const Joi = require('joi');
 const bodyParser = require('body-parser');
-const { spotSchema } = require('./schemas');
+const { spotSchema, reviewSchema } = require('./schemas');
 const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
@@ -34,6 +32,17 @@ const validateSpot = (req, res, next) => {
 
   if (error) {
     const msg = error.details.map((el) => el.message).join(',');
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(',');
+    console.log('msg', msg);
     throw new ExpressError(msg, 400);
   } else {
     next();
@@ -112,7 +121,8 @@ app.delete(
   })
 );
 
-app.post('/spots/:id/reviews', async (req, res) => {
+app.post('/spots/:id/reviews', validateReview, async (req, res) => {
+  console.log('hey');
   const { id } = req.params;
   const spot = await Spot.findById(id);
 
@@ -122,7 +132,6 @@ app.post('/spots/:id/reviews', async (req, res) => {
   spot.reviews.push(review);
   await spot.save();
 
-  // res.status(200).send('Review added');
   res.redirect(`/spots/${spot._id}`);
 });
 
