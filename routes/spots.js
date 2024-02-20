@@ -76,7 +76,7 @@ router.get(
 );
 
 router.put(
-  '/:id',
+  '/:id/edit',
   isLoggedIn,
   validateSpot,
   catchAsync(async (req, res) => {

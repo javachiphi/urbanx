@@ -1,8 +1,13 @@
 <% layout('layouts/Boilerplate') %>
 <div class="row">
   <div class="col-6 offset-3">
-    <h1>New Spot</h1>
-    <form class="needs-validation" action="/spots" method="post" novalidate>
+    <h1>Edit Spot</h1>
+    <form
+      class="needs-validation"
+      action="/spots/<%=spot.id%>/edit?_method=PUT"
+      method="post"
+      novalidate
+    >
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
