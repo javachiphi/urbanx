@@ -1,5 +1,7 @@
 const Spot = require('../models/spot');
 const { cloudinary } = require('../cloudinary');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 
 module.exports.index = async (req, res) => {
   const spots = await Spot.find({});
@@ -12,8 +14,20 @@ module.exports.renderNewForm = async (req, res) => {
 };
 
 module.exports.createSpot = async (req, res) => {
+  console.log('heeyyy!!!', geocoder);
+  console.log('req.body', req.body);
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.location,
+      limit: 1,
+    })
+    .send();
+
+  console.log('hey response', geoData.body.features[0].geometry);
+  // console.log(response.body.features[0].geometry.coordinates);
   const { title, location } = req.body;
   const spot = new Spot({ title, location });
+  spot.geometry = geoData.body.features[0].geometry;
   spot.author = req.user._id;
   spot.images = req.files.map((file) => ({
     url: file.path,
@@ -21,7 +35,6 @@ module.exports.createSpot = async (req, res) => {
   }));
 
   await spot.save();
-  console.log('sppot', spot);
 
   req.flash('success', 'Spot created successfully!');
   res.redirect(`/spots/${spot._id}`);
