@@ -1,4 +1,5 @@
 <% layout('layouts/Boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/stars.css" />
 <div class="row">
   <div class="col-6">
     <div class="card mb-3">
@@ -68,10 +69,10 @@
     <% } %> <% for (let review of spot.reviews) {%>
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title">Rating: <%= review.rating %></h5>
         <p class="card-subtitle mb-2 text-muted">
           <%= review.author?.username %>
         </p>
+        <p class="starability-result" data-rating="<%= review.rating %>"></p>
         <p class="card-text">Review: <%= review.body %></p>
         <% if(currentUser && review.author?.equals(currentUser._id)) {%>
         <form
