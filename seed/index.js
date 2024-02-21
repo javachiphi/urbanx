@@ -21,14 +21,15 @@ const seedDB = async () => {
       author: '65d464dea5478bf6f02b53dd',
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
+      geometry: { coordinates: [-119.571615, 37.737363], type: 'Point' },
       images: [
         {
-          url: 'https://res.cloudinary.com/drqzbwrjf/image/upload/v1708489044/UrbanX/w4lojppzemuie5m0mijz.png',
-          filename: 'UrbanX/w4lojppzemuie5m0mijz',
+          url: 'https://res.cloudinary.com/drqzbwrjf/image/upload/v1708487372/UrbanX/ne6x2wmz27z5ormqnyao.png',
+          filename: 'UrbanX/ne6x2wmz27z5ormqnyao',
         },
         {
-          url: 'https://res.cloudinary.com/drqzbwrjf/image/upload/v1708489045/UrbanX/k6fd4pdlgsyruy3zz1lm.png',
-          filename: 'UrbanX/k6fd4pdlgsyruy3zz1lm',
+          url: 'https://res.cloudinary.com/drqzbwrjf/image/upload/v1708488145/UrbanX/kmogvlmoq1nrpw0vgxq4.png',
+          filename: 'UrbanX/kmogvlmoq1nrpw0vgxq4',
         },
       ],
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
