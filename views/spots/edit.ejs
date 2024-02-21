@@ -36,8 +36,18 @@
 
       <div class="mb-3">
         <%- include('../partials/carousel', {images: spot.images}) %>
-        <label class="form-label" for="image">Add more images</label>
-        <input type="file" name="image" id="image" multiple />
+        <div class="mb-3">
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Add more Images</label>
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              name="image"
+              multiple
+            />
+          </div>
+        </div>
       </div>
 
       <div class="mb-3">
