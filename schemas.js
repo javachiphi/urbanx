@@ -5,6 +5,7 @@ module.exports.spotSchema = Joi.object({
   location: Joi.string().required(),
   // image: Joi.string().allow(''),
   description: Joi.string().allow(''),
+  deleteImages: Joi.array(),
 });
 
 module.exports.reviewSchema = Joi.object({

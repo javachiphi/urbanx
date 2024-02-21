@@ -35,7 +35,24 @@
       </div>
 
       <div class="mb-3">
-        <%- include('../partials/carousel', {images: spot.images}) %>
+        <div class="mb-3">
+          <% spot.images.forEach((image,i) => { %>
+          <img
+            src="<%= image.url %>"
+            class="img-thumbnail"
+            alt="<%= spot.title %>"
+          />
+          <div class="form-check-inline">
+            <input
+              type="checkbox"
+              id="image-<%=i%>"
+              name="deleteImages[]"
+              value="<%= image.filename %>"
+            />
+          </div>
+          <label class="form-check-label" for="image-<%=i%>">Delete?</label>
+          <% }) %>
+        </div>
         <div class="mb-3">
           <div class="mb-3">
             <label for="formFile" class="form-label">Add more Images</label>
