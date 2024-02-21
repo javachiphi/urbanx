@@ -64,6 +64,13 @@ module.exports.updateSpot = async (req, res) => {
     { title, location, image, description },
     { runValidators: true, new: true }
   );
+  const imgs = req.files.map((file) => ({
+    url: file.path,
+    filename: file.filename,
+  }));
+  spot.images.push(...imgs);
+  await spot.save();
+
   req.flash('success', 'Spot updated successfully!');
 
   res.redirect(`/spots/${spot._id}`);
