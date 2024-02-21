@@ -7,4 +7,11 @@ const map = new mapboxgl.Map({
   zoom: 9, // starting zoom
 });
 
-const marker1 = new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
+const marker1 = new mapboxgl.Marker()
+  .setLngLat(coordinates)
+  .setPopup(
+    new mapboxgl.Popup({ offset: 25 }).setHTML(
+      `<h4>${JSON.parse(spot).title}</h4><p>${JSON.parse(spot).location}</p>`
+    )
+  )
+  .addTo(map);
