@@ -9,6 +9,7 @@
         <p class="card-text"><%= spot.description %></p>
         <p class="card-text"><%= spot.location %></p>
         <p class="card-text">submitted by <%= spot.author.username %></p>
+        <div id="map" style="width: 400px; height: 300px"></div>
         <%- include('../partials/carousel', {images: spot.images}) %>
       </div>
       <% if(currentUser && spot.author.equals(currentUser._id)) {%>
@@ -100,3 +101,7 @@
     <% } %>
   </div>
 </div>
+<script>
+  const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+</script>
+<script src="/js/showPageMap.js"></script>
