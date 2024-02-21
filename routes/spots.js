@@ -4,6 +4,8 @@ const catchAsync = require('../utils/catchAsync');
 const Spot = require('../models/spot');
 const { isLoggedIn, isAuthor, validateSpot } = require('../middleware');
 const spots = require('../controllers/spots');
+const multer = require('multer');
+const upload = multer({ dest: './public/uploads/' });
 
 router.use((req, res, next) => {
   next();
@@ -12,7 +14,11 @@ router.use((req, res, next) => {
 router
   .route('/')
   .get(catchAsync(spots.index))
-  .post(isLoggedIn, validateSpot, catchAsync(spots.createSpot));
+  // .post(isLoggedIn, validateSpot, catchAsync(spots.createSpot));
+  .post(upload.single('image'), (req, res) => {
+    console.log(req.body, req.files);
+    res.send('it worked');
+  });
 
 router.get('/new', isLoggedIn, spots.renderNewForm);
 
