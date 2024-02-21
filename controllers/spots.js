@@ -27,6 +27,7 @@ module.exports.createSpot = async (req, res) => {
   // console.log(response.body.features[0].geometry.coordinates);
   const { title, location } = req.body;
   const spot = new Spot({ title, location });
+  //handle the case where the user doesn't enter a location or the location is not found
   spot.geometry = geoData.body.features[0].geometry;
   spot.author = req.user._id;
   spot.images = req.files.map((file) => ({
