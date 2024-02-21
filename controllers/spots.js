@@ -14,7 +14,13 @@ module.exports.createSpot = async (req, res) => {
   const { title, location } = req.body;
   const spot = new Spot({ title, location });
   spot.author = req.user._id;
+  spot.images = req.files.map((file) => ({
+    url: file.path,
+    filename: file.filename,
+  }));
+
   await spot.save();
+  console.log('sppot', spot);
 
   req.flash('success', 'Spot created successfully!');
   res.redirect(`/spots/${spot._id}`);

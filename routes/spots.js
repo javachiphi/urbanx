@@ -15,11 +15,12 @@ router.use((req, res, next) => {
 router
   .route('/')
   .get(catchAsync(spots.index))
-  // .post(isLoggedIn, validateSpot, catchAsync(spots.createSpot));
-  .post(upload.single('image'), (req, res) => {
-    console.log(req.body, req.file);
-    res.send('it worked');
-  });
+  .post(
+    isLoggedIn,
+    upload.array('image'),
+    validateSpot,
+    catchAsync(spots.createSpot)
+  );
 
 router.get('/new', isLoggedIn, spots.renderNewForm);
 

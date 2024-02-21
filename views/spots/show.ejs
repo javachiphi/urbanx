@@ -9,7 +9,9 @@
         <p class="card-text"><%= spot.description %></p>
         <p class="card-text"><%= spot.location %></p>
         <p class="card-text">submitted by <%= spot.author.username %></p>
-        <img class="img-fluid" src="<%= spot.image %>" alt="" />
+        <% for(let img of spot.images) {%>
+        <img class="img-fluid" src="<%= img.url %>" alt="" />
+        <% } %>
       </div>
       <% if(currentUser && spot.author.equals(currentUser._id)) {%>
       <div class="card-body">

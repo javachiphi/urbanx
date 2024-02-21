@@ -4,7 +4,12 @@ const Review = require('./review');
 
 const spotSchema = new Schema({
   title: String,
-  image: String,
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
   description: String,
   location: String,
   author: {
