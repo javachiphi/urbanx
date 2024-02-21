@@ -5,7 +5,8 @@ const Spot = require('../models/spot');
 const { isLoggedIn, isAuthor, validateSpot } = require('../middleware');
 const spots = require('../controllers/spots');
 const multer = require('multer');
-const upload = multer({ dest: './public/uploads/' });
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 
 router.use((req, res, next) => {
   next();
@@ -16,7 +17,7 @@ router
   .get(catchAsync(spots.index))
   // .post(isLoggedIn, validateSpot, catchAsync(spots.createSpot));
   .post(upload.single('image'), (req, res) => {
-    console.log(req.body, req.files);
+    console.log(req.body, req.file);
     res.send('it worked');
   });
 
