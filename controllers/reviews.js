@@ -7,7 +7,7 @@ module.exports.createReview = async (req, res) => {
   const spot = await Spot.findById(id);
 
   const { body, rating } = req.body;
-  const review = new Review({ body, rating });
+  const review = new Review({ body, rating: parseInt(rating) });
   review.author = req.user._id;
   await review.save();
   spot.reviews.push(review);
