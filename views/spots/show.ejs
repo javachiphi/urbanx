@@ -3,12 +3,10 @@
 <div class="row mb-3">
   <div class="col-lg-6">
     <div class="card mb-3 container-height">
-      <h5 class="card-header">Featured</h5>
+      <h5 class="card-header"><%= spot.title %></h5>
       <div class="card-body">
-        <h5 class="card-title"><%= spot.title %></h5>
+        <h5 class="card-title"><%= spot.location %></h5>
         <p class="card-text"><%= spot.description %></p>
-        <p class="card-text"><%= spot.location %></p>
-        <p class="card-text">submitted by <%= spot.author.username %></p>
         <%- include('../partials/carousel', {images: spot.images}) %>
       </div>
       <% if(currentUser && spot.author.equals(currentUser._id)) {%>
@@ -27,7 +25,7 @@
         </div>
       </div>
       <% } %>
-      <div class="card-footer">2 days ago</div>
+      <div class="card-footer">submitted by <%= spot.author.username %></div>
     </div>
   </div>
   <div class="col-lg-6">
@@ -35,10 +33,7 @@
       class="card d-flex transparent-muted text-white container-height overflow-scroll"
     >
       <% if(currentUser) {%>
-      <div
-        class="card mb-3 transparent-muted text-white align-self-center"
-        style="width: 400px"
-      >
+      <div class="card mb-3 transparent-muted text-white align-self-center">
         <form
           action="/spots/<%= spot.id %>/reviews"
           method="post"
@@ -86,13 +81,13 @@
         </form>
       </div>
       <% } %> <% for (let review of spot.reviews) {%>
-      <div class="card mb-3 align-self-center" style="width: 400px">
+      <div class="card mb-3 w-75 align-self-center">
         <div class="card-body">
           <p class="card-subtitle mb-2 text-muted">
             <%= review.author?.username %>
           </p>
           <p class="starability-result" data-rating="<%= review.rating %>"></p>
-          <p class="card-text">Review: <%= review.body %></p>
+          <p class="card-text"><%= review.body %></p>
           <% if(currentUser && review.author?.equals(currentUser._id)) {%>
           <form
             action="/spots/<%= spot.id %>/reviews/<%= review.id %>?_method=DELETE"
