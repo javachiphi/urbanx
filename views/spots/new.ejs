@@ -1,59 +1,60 @@
 <% layout('layouts/Boilerplate') %>
 <div class="row">
   <div class="col-6 offset-3">
-    <h1>New Spot</h1>
-    <form
-      class="needs-validation"
-      action="/spots"
-      method="post"
-      novalidate
-      enctype="multipart/form-data"
-    >
-      <div class="mb-3">
-        <label class="form-label" for="title">Title</label>
-        <input
-          class="form-control"
-          type="text"
-          name="title"
-          id="spot[title]"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="location">Location</label>
-        <input
-          class="form-control"
-          type="text"
-          name="location"
-          id="spot[location]"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="image">Image upload</label>
+    <div class="card p-3 text-white transparent-muted">
+      <h1>New Spot</h1>
+      <form
+        class="needs-validation"
+        action="/spots"
+        method="post"
+        novalidate
+        enctype="multipart/form-data"
+      >
         <div class="mb-3">
-          <label for="formFile" class="form-label">Upload Image</label>
+          <label class="form-label" for="title">Title</label>
           <input
             class="form-control"
-            type="file"
-            id="formFile"
-            name="image"
-            multiple
+            type="text"
+            name="title"
+            id="spot[title]"
+            required
           />
+          <div class="valid-feedback">Looks good!</div>
         </div>
-      </div>
+        <div class="mb-3">
+          <label class="form-label" for="location">Location</label>
+          <input
+            class="form-control"
+            type="text"
+            name="location"
+            id="spot[location]"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="image">Add Image</label>
+          <div class="mb-3">
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              name="image"
+              multiple
+            />
+          </div>
+        </div>
 
-      <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
-        <textarea
-          class="form-control"
-          name="description"
-          id="spot[description]"
-        ></textarea>
-      </div>
-      <input class="btn btn-success" type="submit" value="Create Spot" />
-    </form>
+        <div class="mb-3">
+          <label class="form-label" for="description">Description</label>
+          <textarea
+            class="form-control"
+            name="description"
+            id="spot[description]"
+          ></textarea>
+        </div>
+        <input class="btn btn-success" type="submit" value="Create Spot" />
+      </form>
+    </div>
   </div>
 </div>

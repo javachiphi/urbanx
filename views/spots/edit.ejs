@@ -1,83 +1,85 @@
 <% layout('layouts/Boilerplate') %>
 <div class="row">
   <div class="col-6 offset-3">
-    <h1>Edit Spot</h1>
-    <form
-      class="needs-validation"
-      action="/spots/<%=spot.id%>/?_method=PUT"
-      method="post"
-      novalidate
-      enctype="multipart/form-data"
-    >
-      <div class="mb-3">
-        <label class="form-label" for="title">Title</label>
-        <input
-          class="form-control"
-          type="text"
-          name="title"
-          id="spot[title]"
-          value="<%= spot.title %>"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="location">Location</label>
-        <input
-          class="form-control"
-          type="text"
-          name="location"
-          id="spot[location]"
-          value="<%= spot.location %>"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-
-      <div class="mb-3">
+    <div class="card p-3 text-white transparent-muted">
+      <h1>Edit Spot</h1>
+      <form
+        class="needs-validation"
+        action="/spots/<%=spot.id%>/?_method=PUT"
+        method="post"
+        novalidate
+        enctype="multipart/form-data"
+      >
         <div class="mb-3">
-          <% spot.images.forEach((image,i) => { %>
-          <img
-            src="<%= image.thumbnail %>"
-            class="img-thumbnail"
-            alt="<%= spot.title %>"
+          <label class="form-label" for="title">Title</label>
+          <input
+            class="form-control"
+            type="text"
+            name="title"
+            id="spot[title]"
+            value="<%= spot.title %>"
+            required
           />
-          <div class="form-check-inline">
-            <input
-              type="checkbox"
-              id="image-<%=i%>"
-              name="deleteImages[]"
-              value="<%= image.filename %>"
-            />
-          </div>
-          <label class="form-check-label" for="image-<%=i%>">Delete?</label>
-          <% }) %>
+          <div class="valid-feedback">Looks good!</div>
         </div>
+        <div class="mb-3">
+          <label class="form-label" for="location">Location</label>
+          <input
+            class="form-control"
+            type="text"
+            name="location"
+            id="spot[location]"
+            value="<%= spot.location %>"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+
         <div class="mb-3">
           <div class="mb-3">
-            <label for="formFile" class="form-label">Add more Images</label>
-            <input
-              class="form-control"
-              type="file"
-              id="formFile"
-              name="image"
-              multiple
+            <% spot.images.forEach((image,i) => { %>
+            <img
+              src="<%= image.thumbnail %>"
+              class="img-thumbnail"
+              alt="<%= spot.title %>"
             />
+            <div class="form-check-inline">
+              <input
+                type="checkbox"
+                id="image-<%=i%>"
+                name="deleteImages[]"
+                value="<%= image.filename %>"
+              />
+            </div>
+            <label class="form-check-label" for="image-<%=i%>">Delete?</label>
+            <% }) %>
+          </div>
+          <div class="mb-3">
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Add more Images</label>
+              <input
+                class="form-control"
+                type="file"
+                id="formFile"
+                name="image"
+                multiple
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
-        <textarea
-          class="form-control"
-          name="description"
-          id="spot[description]"
-        >
+        <div class="mb-3">
+          <label class="form-label" for="description">Description</label>
+          <textarea
+            class="form-control"
+            name="description"
+            id="spot[description]"
+          >
 <%= spot.description %></textarea
-        >
-      </div>
-      <input class="btn btn-success" type="submit" value="Edit Spot" />
-    </form>
+          >
+        </div>
+        <input class="btn btn-success" type="submit" value="Edit Spot" />
+      </form>
+    </div>
   </div>
 </div>
