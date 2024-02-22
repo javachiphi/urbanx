@@ -1,8 +1,11 @@
 <div id="spotCarousel" class="carousel slide">
   <div class="carousel-inner">
     <% spot.images.forEach((img,i) => {%>
-    <div class="carousel-item <%= i === 0? 'active' : '' %>">
-      <img src="<%= img.url %>" class="d-block w-100" alt="..." />
+    <div
+      class="carousel-item <%= i === 0? 'active' : '' %>"
+      style="height: 300px"
+    >
+      <img src="<%= img.url %>" class="d-block w-100 img-container" alt="..." />
     </div>
     <% }) %>
   </div>

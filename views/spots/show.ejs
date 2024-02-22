@@ -1,15 +1,14 @@
 <% layout('layouts/Boilerplate') %>
 <link rel="stylesheet" href="/stylesheets/stars.css" />
-<div class="row">
-  <div class="col-6">
-    <div class="card mb-3">
+<div class="row mb-3">
+  <div class="col-lg-6">
+    <div class="card mb-3 container-height">
       <h5 class="card-header">Featured</h5>
       <div class="card-body">
         <h5 class="card-title"><%= spot.title %></h5>
         <p class="card-text"><%= spot.description %></p>
         <p class="card-text"><%= spot.location %></p>
         <p class="card-text">submitted by <%= spot.author.username %></p>
-        <div id="map" style="width: 400px; height: 300px"></div>
         <%- include('../partials/carousel', {images: spot.images}) %>
       </div>
       <% if(currentUser && spot.author.equals(currentUser._id)) {%>
@@ -31,74 +30,91 @@
       <div class="card-footer">2 days ago</div>
     </div>
   </div>
-  <div class="col-6">
-    <% if(currentUser) {%>
-    <form
-      action="/spots/<%= spot.id %>/reviews"
-      method="post"
-      class="mb-3 needs-validation"
-      novalidate
+  <div class="col-lg-6">
+    <div
+      class="card d-flex transparent-muted text-white container-height overflow-scroll"
     >
-      <h2>Leave a review</h2>
-      <div class="mb-3">
-        <label class="form-label" for="rating">Rating</label>
-        <fieldset class="starability-basic">
-          <legend>First rating:</legend>
-          <input
-            type="radio"
-            id="no-rate"
-            class="input-no-rate"
-            name="rating"
-            value="1"
-            checked
-            aria-label="No rating."
-          />
-          <input type="radio" id="first-rate1" name="rating" value="1" />
-          <label for="first-rate1" title="Terrible">1 star</label>
-          <input type="radio" id="first-rate2" name="rating" value="2" />
-          <label for="first-rate2" title="Not good">2 stars</label>
-          <input type="radio" id="first-rate3" name="rating" value="3" />
-          <label for="first-rate3" title="Average">3 stars</label>
-          <input type="radio" id="first-rate4" name="rating" value="4" />
-          <label for="first-rate4" title="Very good">4 stars</label>
-          <input type="radio" id="first-rate5" name="rating" value="5" />
-          <label for="first-rate5" title="Amazing">5 stars</label>
-        </fieldset>
-      </div>
-      <div class="mb-3">
-        <label for="form-label">Review</label>
-        <textarea
-          class="form-control"
-          name="body"
-          id="body"
-          rows="3"
-          cols="30"
-          placeholder="Write your review here"
-          required
-        ></textarea>
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <button class="btn btn-primary" type="submit">Submit</button>
-    </form>
-    <% } %> <% for (let review of spot.reviews) {%>
-    <div class="card mb-3">
-      <div class="card-body">
-        <p class="card-subtitle mb-2 text-muted">
-          <%= review.author?.username %>
-        </p>
-        <p class="starability-result" data-rating="<%= review.rating %>"></p>
-        <p class="card-text">Review: <%= review.body %></p>
-        <% if(currentUser && review.author?.equals(currentUser._id)) {%>
+      <% if(currentUser) {%>
+      <div
+        class="card mb-3 transparent-muted text-white align-self-center"
+        style="width: 400px"
+      >
         <form
-          action="/spots/<%= spot.id %>/reviews/<%= review.id %>?_method=DELETE"
+          action="/spots/<%= spot.id %>/reviews"
           method="post"
+          class="mb-3 needs-validation"
+          novalidate
         >
-          <button class="btn btn-sm btn-danger">Delete</button>
+          <h5>Leave a review</h5>
+          <div>
+            <fieldset class="starability-basic">
+              <input
+                type="radio"
+                id="no-rate"
+                class="input-no-rate"
+                name="rating"
+                value="1"
+                checked
+                aria-label="No rating."
+              />
+              <input type="radio" id="first-rate1" name="rating" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="rating" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="rating" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="rating" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="rating" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
+          <div class="mb-3">
+            <label for="form-label">Review</label>
+            <textarea
+              class="form-control"
+              name="body"
+              id="body"
+              rows="3"
+              cols="30"
+              placeholder="Write your review here"
+              required
+            ></textarea>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <button class="btn btn-primary" type="submit">Submit</button>
         </form>
-        <% } %>
       </div>
+      <% } %> <% for (let review of spot.reviews) {%>
+      <div class="card mb-3 align-self-center" style="width: 400px">
+        <div class="card-body">
+          <p class="card-subtitle mb-2 text-muted">
+            <%= review.author?.username %>
+          </p>
+          <p class="starability-result" data-rating="<%= review.rating %>"></p>
+          <p class="card-text">Review: <%= review.body %></p>
+          <% if(currentUser && review.author?.equals(currentUser._id)) {%>
+          <form
+            action="/spots/<%= spot.id %>/reviews/<%= review.id %>?_method=DELETE"
+            method="post"
+          >
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+          <% } %>
+        </div>
+      </div>
+      <% } %>
     </div>
-    <% } %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 text-white text-center rounded-3 transparent-muted">
+    <h5 class="p-2">Explore</h5>
+    <div
+      id="map"
+      class="align-self-center p-3 m-3 rounded-3 bg-body-tertiary wd-100"
+      style="height: 400px"
+    ></div>
   </div>
 </div>
 <script>
