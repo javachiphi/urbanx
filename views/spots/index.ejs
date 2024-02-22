@@ -1,26 +1,33 @@
 <% layout('layouts/Boilerplate') %>
-
-<div id="map" style="width: 100%; height: 500px"></div>
-<h2>All Spots</h2>
-<div>Add new campground <a href="/spots/new">New Spot</a></div>
-
-<% for (let spot of spots) {%>
-<div class="card">
+<div class="container">
   <div class="row">
-    <div class="col-md-4">
-      <img class="img-fluid" src="<%= spot.images[0]?.url %>" alt="" />
+    <div class="col-md-6">
+      <div id="map" style="width: 100%; height: 80vh"></div>
     </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title"><%= spot.title %></h5>
-        <p class="card-text"><%= spot.description %></p>
-        <p><%= spot.location %></p>
-        <a href="/spots/<%= spot.id %>">View Spot</a>
+    <div class="col-md-6 text-white">
+      <h2>All Spots</h2>
+      <div>Add new campground <a href="/spots/new">New Spot</a></div>
+      <% for (let spot of spots) {%>
+      <div class="card">
+        <div class="row">
+          <div class="col-md-4">
+            <img class="img-fluid" src="<%= spot.images[0]?.url %>" alt="" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"><%= spot.title %></h5>
+              <p class="card-text"><%= spot.description %></p>
+              <p><%= spot.location %></p>
+              <a href="/spots/<%= spot.id %>">View Spot</a>
+            </div>
+          </div>
+        </div>
       </div>
+      <% } %>
     </div>
   </div>
 </div>
-<% } %>
+
 <script>
   const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
   const geoJsonSpots = {
