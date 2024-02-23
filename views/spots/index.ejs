@@ -5,24 +5,24 @@
       <div id="map" class="vh-80 wd-100"></div>
     </div>
     <div class="col-md-6 text-white">
-      <div class="row overflow-scroll vh-80">
-        <% for (let spot of spots) {%>
-        <div class="col-lg-4 col-md-6 mb-3 d-flex align-items-stretch">
-          <div class="card">
-            <a href="/spots/<%= spot.id %>">
-              <img
-                crossorigin="anonymous"
-                class="card-img-top"
-                src="<%= spot.images[0]?.url %>"
-                alt=""
-              />
-            </a>
-            <!-- <div class="card-body"> -->
-            <div class="card-footer">📍<%= spot.location %></div>
-            <!-- </div> -->
+      <div class="overflow-scroll vh-80">
+        <div class="row">
+          <% for (let spot of spots) {%>
+          <div class="col-md-6 mb-3">
+            <div class="card h-100">
+              <a href="/spots/<%= spot.id %>">
+                <img
+                  crossorigin="anonymous"
+                  class="card-img-top"
+                  src="<%= spot.images[0]?.url %>"
+                  alt=""
+                />
+              </a>
+              <div class="card-body">📍<%= spot.location %></div>
+            </div>
           </div>
+          <% } %>
         </div>
-        <% } %>
       </div>
     </div>
   </div>

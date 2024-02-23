@@ -25,8 +25,8 @@ module.exports.createSpot = async (req, res) => {
 
   console.log('hey response', geoData.body.features[0].geometry);
   // console.log(response.body.features[0].geometry.coordinates);
-  const { title, location } = req.body;
-  const spot = new Spot({ title, location });
+  const { title, location, description } = req.body;
+  const spot = new Spot({ title, location, description });
   //handle the case where the user doesn't enter a location or the location is not found
   spot.geometry = geoData.body.features[0].geometry;
   spot.author = req.user._id;
