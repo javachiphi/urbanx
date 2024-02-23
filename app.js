@@ -30,7 +30,9 @@ const {
   sessionConfig,
 } = require('./config');
 
-mongoose.connect('mongodb://localhost:27017/urbanx');
+const mongoDbUrl = process.env.MONGO_DB_URL;
+// 'mongodb://localhost:27017/urbanx // for local development
+mongoose.connect(mongoDbUrl);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

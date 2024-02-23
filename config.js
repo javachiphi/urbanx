@@ -20,7 +20,23 @@ module.exports.imgSrcUrls = [
   'https://images.unsplash.com',
 ];
 
+const MongoStore = require('connect-mongo');
+
+// 'mongodb://localhost:27017/urbanx // for local development
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_DB_URL,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: 'heyhey',
+  },
+});
+
+store.on('error', function (e) {
+  console.log('Session Store Error', e);
+});
+
 module.exports.sessionConfig = {
+  store,
   name: 'session',
   secret: 'hey',
   resave: false,
