@@ -16,7 +16,7 @@ module.exports.styleSrcUrls = [
 ];
 
 module.exports.imgSrcUrls = [
-  'https://res.cloudinary.com',
+  'https://res.cloudinary.com/drqzbwrjf/',
   'https://images.unsplash.com',
 ];
 
