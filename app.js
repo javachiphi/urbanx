@@ -30,8 +30,9 @@ const {
   sessionConfig,
 } = require('./config');
 
-const mongoDbUrl = process.env.MONGO_DB_URL;
-// 'mongodb://localhost:27017/urbanx // for local development
+const mongoDbUrl =
+  process.env.MONGO_DB_URL || 'mongodb://localhost:27017/urbanx';
+
 mongoose.connect(mongoDbUrl);
 
 const db = mongoose.connection;

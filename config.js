@@ -23,11 +23,13 @@ module.exports.imgSrcUrls = [
 const MongoStore = require('connect-mongo');
 
 // 'mongodb://localhost:27017/urbanx // for local development
+const secret = process.env.SECRET || 'heyhey';
+
 const store = MongoStore.create({
   mongoUrl: process.env.MONGO_DB_URL,
   touchAfter: 24 * 60 * 60,
   crypto: {
-    secret: 'heyhey',
+    secret,
   },
 });
 
@@ -38,7 +40,7 @@ store.on('error', function (e) {
 module.exports.sessionConfig = {
   store,
   name: 'session',
-  secret: 'hey',
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
