@@ -5,7 +5,12 @@
       class="carousel-item <%= i === 0? 'active' : '' %>"
       style="height: 300px"
     >
-      <img src="<%= img.url %>" class="d-block w-100 img-container" alt="..." />
+      <img
+        crossorigin="anonymous"
+        src="<%= img.url %>"
+        class="d-block w-100 img-container"
+        alt="..."
+      />
     </div>
     <% }) %>
   </div>

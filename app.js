@@ -21,6 +21,14 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const {
+  connectSrcUrls,
+  scriptSrcUrls,
+  styleSrcUrls,
+  imgSrcUrls,
+  sessionConfig,
+} = require('./config');
 
 mongoose.connect('mongodb://localhost:27017/urbanx');
 
@@ -36,21 +44,23 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(bodyParser.json());
 app.use(mongoSanitize());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", 'blob:'],
+      imgSrc: ["'self'", 'blob:', 'data:', ...imgSrcUrls],
+    },
+  })
+);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
-const sessionConfig = {
-  name: 'session',
-  secret: 'hey',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    // secure: true,
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
-};
+
 app.use(session(sessionConfig));
 app.use(flash());
 
@@ -62,7 +72,6 @@ passport.serializeUser(User.serializeUser()); // store
 passport.deserializeUser(User.deserializeUser()); // unstore user in a session
 
 app.use((req, res, next) => {
-  console.log('req.user...', req.query);
   res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');

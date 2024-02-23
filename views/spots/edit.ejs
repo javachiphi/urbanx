@@ -39,6 +39,7 @@
           <div class="mb-3">
             <% spot.images.forEach((image,i) => { %>
             <img
+              crossorigin="anonymous"
               src="<%= image.thumbnail %>"
               class="img-thumbnail"
               alt="<%= spot.title %>"
