@@ -11,6 +11,10 @@ ImageSchema.virtual('thumbnail').get(function () {
   return this.url.replace('/upload', '/upload/w_200');
 });
 
+ImageSchema.virtual('transformedImg').get(function () {
+  return this.url.replace('/upload', '/upload/f_auto,q_auto/');
+});
+
 const opts = { toJSON: { virtuals: true } };
 const spotSchema = new Schema(
   {
