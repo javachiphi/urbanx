@@ -20,8 +20,6 @@ module.exports.renderNewForm = async (req, res) => {
 };
 
 module.exports.createSpot = async (req, res) => {
-  console.log('heeyyy!!!', geocoder);
-  console.log('req.body', req.body);
   const geoData = await geocoder
     .forwardGeocode({
       query: req.body.location,
@@ -79,13 +77,21 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateSpot = async (req, res) => {
   const { id } = req.params;
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.location,
+      limit: 1,
+    })
+    .send();
 
-  const { title, location, image, description } = req.body;
+  const { title, image, description } = req.body;
   const spot = await Spot.findByIdAndUpdate(
     id,
-    { title, location, image, description },
+    { title, image, description },
     { runValidators: true, new: true }
   );
+
+  spot.geometry = geoData.body.features[0].geometry;
   const imgs = req.files.map((file) => ({
     url: file.path,
     filename: file.filename,
