@@ -25,7 +25,6 @@ module.exports.renderLoginForm = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
-  req.session.cookie.secure = true;
   req.flash('success', 'Welcome back!');
   const redirectUrl = res.locals.returnTo || '/spots';
   delete res.locals.returnTo;
