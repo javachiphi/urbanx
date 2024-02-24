@@ -43,7 +43,7 @@ module.exports.sessionConfig = {
   secret,
   resave: false,
   sameSite: 'Lax',
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
