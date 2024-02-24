@@ -43,7 +43,7 @@ const spotSchema = new Schema(
 );
 
 spotSchema.virtual('properties.popUpMarkup').get(function () {
-  return this.title;
+  return `<strong><a href="/spots/${this._id}">${this.title}</a></strong>`;
 });
 
 // query middleware
