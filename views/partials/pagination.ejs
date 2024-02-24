@@ -1,0 +1,42 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+      <a
+        class="page-link"
+        href="<%= page > 1 ? '/spots?page=' + (page - 1) : '#' %>"
+        >&laquo;</a
+      >
+    </li>
+
+    <% if (page > 3) { %>
+    <li class="page-item">
+      <a class="page-link" href="/spots?page=1">1</a>
+    </li>
+    <% if (page > 4) { %>
+    <li class="page-item disabled"><span class="page-link">...</span></li>
+    <% } %> <% } %> <% for (let i = Math.max(1, page - 2); i <= Math.min(page +
+    2, totalPages); i++) { %>
+    <li class="page-item <%= i === page ? 'active' : '' %>">
+      <a class="page-link" href="/spots?page=<%= i %>"><%= i %></a>
+    </li>
+    <% } %> <% if (page < totalPages - 2) { %> <% if (page < totalPages - 3) {
+    %>
+    <li class="page-item disabled"><span class="page-link">...</span></li>
+    <% } %>
+    <li class="page-item">
+      <a class="page-link" href="/spots?page=<%= totalPages %>">
+        <%= totalPages %>
+      </a>
+    </li>
+    <% } %>
+
+    <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+      <a
+        class="page-link"
+        href="<%= page < totalPages ? '/spots?page=' + (page + 1) : '#' %>"
+      >
+        &raquo;
+      </a>
+    </li>
+  </ul>
+</nav>

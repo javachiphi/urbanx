@@ -4,9 +4,15 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 
 module.exports.index = async (req, res) => {
-  const spots = await Spot.find({});
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10; // Items per page
+  const skip = (page - 1) * limit;
 
-  res.render('spots/index', { spots });
+  const totalSpots = await Spot.countDocuments();
+  const spots = await Spot.find({}).skip(skip).limit(limit);
+  const totalPages = Math.ceil(totalSpots / limit);
+
+  res.render('spots/index', { spots, page, totalPages });
 };
 
 module.exports.renderNewForm = async (req, res) => {
