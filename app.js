@@ -41,12 +41,15 @@ db.once('open', () => {
   console.log('Database connected');
 });
 
+app.use(session(sessionConfig));
+
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(bodyParser.json());
 app.use(mongoSanitize());
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -64,7 +67,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session(sessionConfig));
 app.use(flash());
 
 app.use(passport.initialize());
@@ -87,6 +89,16 @@ app.use('/spots/:id/reviews', reviewRoutes);
 
 app.get('/', (req, res) => {
   res.render('home');
+});
+
+app.get('/session', (req, res) => {
+  if (req.session.count) {
+    req.session.count += 1;
+  } else {
+    req.session.count = 1;
+  }
+
+  res.send(`you have viewed ${req.session.count} times`);
 });
 
 app.all('*', (req, res, next) => {
